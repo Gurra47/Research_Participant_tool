@@ -15,6 +15,11 @@ export interface Database {
           title: string
           description: string | null
           status: string | null
+          location: string | null
+          duration_minutes: number | null
+          credits: number | null
+          capacity: number | null
+          requirements: string | null
           created_at: string
         }
         Insert: {
@@ -22,6 +27,11 @@ export interface Database {
           title: string
           description?: string | null
           status?: string | null
+          location?: string | null
+          duration_minutes?: number | null
+          credits?: number | null
+          capacity?: number | null
+          requirements?: string | null
           created_at?: string
         }
         Update: {
@@ -29,6 +39,11 @@ export interface Database {
           title?: string
           description?: string | null
           status?: string | null
+          location?: string | null
+          duration_minutes?: number | null
+          credits?: number | null
+          capacity?: number | null
+          requirements?: string | null
           created_at?: string
         }
         Relationships: []
@@ -40,6 +55,8 @@ export interface Database {
           name: string
           email: string
           status: string | null
+          booking_time: string | null
+          credits_awarded: number | null
           created_at: string
         }
         Insert: {
@@ -48,6 +65,8 @@ export interface Database {
           name: string
           email: string
           status?: string | null
+          booking_time?: string | null
+          credits_awarded?: number | null
           created_at?: string
         }
         Update: {
@@ -56,6 +75,8 @@ export interface Database {
           name?: string
           email?: string
           status?: string | null
+          booking_time?: string | null
+          credits_awarded?: number | null
           created_at?: string
         }
         Relationships: [

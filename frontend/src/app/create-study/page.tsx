@@ -2,10 +2,16 @@
 import React, { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function CreateStudyPage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [location, setLocation] = useState('');
+  const [durationMinutes, setDurationMinutes] = useState(30);
+  const [credits, setCredits] = useState(1);
+  const [capacity, setCapacity] = useState(20);
+  const [requirements, setRequirements] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
@@ -16,7 +22,15 @@ export default function CreateStudyPage() {
     const { error } = await supabase
       .from('studies')
       .insert([
-        { title, description }
+        {
+          title,
+          description,
+          location,
+          duration_minutes: durationMinutes,
+          credits,
+          capacity,
+          requirements,
+        }
       ]);
 
     setIsSubmitting(false);
@@ -34,11 +48,11 @@ export default function CreateStudyPage() {
     <div className="container">
       <header className="header">
         <h1>Create New Study</h1>
-        <p>Fill out the details below to start a new research study.</p>
+        <p>Set up recruitment, booking details, and participant credits.</p>
       </header>
 
       <main className="main-content">
-        <form onSubmit={handleSubmit} className="study-form">
+        <form onSubmit={handleSubmit} className="form-container animate-fade-in">
           <div className="form-group">
             <label htmlFor="title">Study Title</label>
             <input
@@ -61,11 +75,72 @@ export default function CreateStudyPage() {
             ></textarea>
           </div>
 
-          <div className="actions">
+          <div className="form-grid">
+            <div className="form-group">
+              <label htmlFor="location">Location</label>
+              <input
+                type="text"
+                id="location"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                placeholder="Lab, room, or video link"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="capacity">Participant Capacity</label>
+              <input
+                type="number"
+                id="capacity"
+                min="1"
+                value={capacity}
+                onChange={(e) => setCapacity(Number(e.target.value))}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="duration">Duration (minutes)</label>
+              <input
+                type="number"
+                id="duration"
+                min="5"
+                step="5"
+                value={durationMinutes}
+                onChange={(e) => setDurationMinutes(Number(e.target.value))}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="credits">Credits Per Completion</label>
+              <input
+                type="number"
+                id="credits"
+                min="0"
+                value={credits}
+                onChange={(e) => setCredits(Number(e.target.value))}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="requirements">Eligibility Requirements</label>
+            <textarea
+              id="requirements"
+              value={requirements}
+              onChange={(e) => setRequirements(e.target.value)}
+              rows={3}
+              placeholder="Optional screening criteria or preparation notes"
+            ></textarea>
+          </div>
+
+          <div className="flex-center mt-4" style={{ gap: '1rem' }}>
             <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
               {isSubmitting ? 'Creating...' : 'Create Study'}
             </button>
-            <a href="/dashboard" className="btn" style={{ marginLeft: '10px' }}>Cancel</a>
+            <Link href="/dashboard" className="btn btn-secondary">Cancel</Link>
           </div>
         </form>
       </main>

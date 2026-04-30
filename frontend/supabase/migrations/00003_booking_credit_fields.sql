@@ -1,0 +1,11 @@
+-- Add booking and credit details for the MVP workflow.
+ALTER TABLE public.studies
+ADD COLUMN IF NOT EXISTS location TEXT,
+ADD COLUMN IF NOT EXISTS duration_minutes INTEGER DEFAULT 30,
+ADD COLUMN IF NOT EXISTS credits INTEGER DEFAULT 1,
+ADD COLUMN IF NOT EXISTS capacity INTEGER DEFAULT 20,
+ADD COLUMN IF NOT EXISTS requirements TEXT;
+
+ALTER TABLE public.participants
+ADD COLUMN IF NOT EXISTS booking_time TIMESTAMP WITH TIME ZONE,
+ADD COLUMN IF NOT EXISTS credits_awarded INTEGER DEFAULT 0;

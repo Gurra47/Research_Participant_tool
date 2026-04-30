@@ -1,5 +1,7 @@
 import React from 'react';
 import { supabase } from '@/lib/supabase';
+import StudyCard from '@/components/StudyCard';
+import Link from 'next/link';
 
 // Explicitly mark as dynamic since we are fetching from a database
 export const dynamic = 'force-dynamic';
@@ -10,33 +12,58 @@ export default async function DashboardPage() {
     .select('*')
     .order('created_at', { ascending: false });
 
+  const activeStudies = studies?.filter((study) => (study.status || 'Active') === 'Active').length || 0;
+  const totalCapacity = studies?.reduce((total, study) => total + (study.capacity || 0), 0) || 0;
+  const totalCredits = studies?.reduce((total, study) => total + (study.credits || 0), 0) || 0;
+
   return (
     <div className="container">
-      <header className="header">
-        <h1>Dashboard</h1>
-        <p>Welcome back! Here are your active studies.</p>
-      </header>
-
       <main className="main-content">
-        <section className="studies-list">
-          {error ? (
-            <p>Error loading studies: {error.message}</p>
-          ) : studies && studies.length > 0 ? (
-            studies.map((study) => (
-              <div key={study.id} className="study-card">
-                <h2>{study.title}</h2>
-                <p>Status: {study.status || 'Active'}</p>
-                <a href={`/study/${study.id}`} className="btn">View Details</a>
+        <header className="header animate-fade-in">
+          <h1>Dashboard</h1>
+          <p>Track active studies, booking capacity, and participant credits.</p>
+        </header>
+
+        <section className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
+          <div className="dashboard-toolbar">
+            <div className="metrics-grid compact">
+              <div className="metric">
+                <span>Active Studies</span>
+                <strong>{activeStudies}</strong>
               </div>
-            ))
+              <div className="metric">
+                <span>Total Capacity</span>
+                <strong>{totalCapacity}</strong>
+              </div>
+              <div className="metric">
+                <span>Credits Per Round</span>
+                <strong>{totalCredits}</strong>
+              </div>
+            </div>
+            <Link href="/create-study" className="btn btn-primary">
+              Create New Study
+            </Link>
+          </div>
+
+          {error ? (
+            <div className="form-container">
+              <p style={{ color: 'red' }}>Error loading studies: {error.message}</p>
+            </div>
+          ) : studies && studies.length > 0 ? (
+            <div className="studies-grid">
+              {studies.map((study) => (
+                <StudyCard key={study.id} study={study} />
+              ))}
+            </div>
           ) : (
-            <p>No active studies found.</p>
+            <div className="form-container text-center">
+              <h2>No active studies found.</h2>
+              <p className="mt-4 mb-8" style={{ color: 'var(--text-muted)' }}>
+                You have not created any studies yet. Create one to start recruiting participants.
+              </p>
+            </div>
           )}
         </section>
-
-        <div className="actions">
-          <a href="/create-study" className="btn btn-primary">Create New Study</a>
-        </div>
       </main>
     </div>
   );
