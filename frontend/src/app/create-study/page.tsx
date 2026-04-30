@@ -7,6 +7,8 @@ import Link from 'next/link';
 export default function CreateStudyPage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [researcherName, setResearcherName] = useState('');
+  const [researcherEmail, setResearcherEmail] = useState('');
   const [location, setLocation] = useState('');
   const [durationMinutes, setDurationMinutes] = useState(30);
   const [credits, setCredits] = useState(1);
@@ -25,6 +27,8 @@ export default function CreateStudyPage() {
         {
           title,
           description,
+          researcher_name: researcherName,
+          researcher_email: researcherEmail.toLowerCase().trim(),
           location,
           duration_minutes: durationMinutes,
           credits,
@@ -48,7 +52,7 @@ export default function CreateStudyPage() {
     <div className="container">
       <header className="header">
         <h1>Create New Study</h1>
-        <p>Set up recruitment, booking details, and participant credits.</p>
+        <p>Publish your study and make it easy for other students to help.</p>
       </header>
 
       <main className="main-content">
@@ -73,6 +77,30 @@ export default function CreateStudyPage() {
               rows={4}
               required
             ></textarea>
+          </div>
+
+          <div className="form-grid">
+            <div className="form-group">
+              <label htmlFor="researcherName">Your Name</label>
+              <input
+                type="text"
+                id="researcherName"
+                value={researcherName}
+                onChange={(e) => setResearcherName(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="researcherEmail">University Email</label>
+              <input
+                type="email"
+                id="researcherEmail"
+                value={researcherEmail}
+                onChange={(e) => setResearcherEmail(e.target.value)}
+                required
+              />
+            </div>
           </div>
 
           <div className="form-grid">
@@ -113,7 +141,7 @@ export default function CreateStudyPage() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="credits">Credits Per Completion</label>
+              <label htmlFor="credits">Help Weight</label>
               <input
                 type="number"
                 id="credits"

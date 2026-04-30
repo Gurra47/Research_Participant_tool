@@ -14,6 +14,8 @@ export interface Database {
           id: string
           title: string
           description: string | null
+          researcher_name: string | null
+          researcher_email: string | null
           status: string | null
           location: string | null
           duration_minutes: number | null
@@ -26,6 +28,8 @@ export interface Database {
           id?: string
           title: string
           description?: string | null
+          researcher_name?: string | null
+          researcher_email?: string | null
           status?: string | null
           location?: string | null
           duration_minutes?: number | null
@@ -38,6 +42,8 @@ export interface Database {
           id?: string
           title?: string
           description?: string | null
+          researcher_name?: string | null
+          researcher_email?: string | null
           status?: string | null
           location?: string | null
           duration_minutes?: number | null
@@ -52,6 +58,7 @@ export interface Database {
         Row: {
           id: string
           study_id: string
+          timeslot_id: string | null
           name: string
           email: string
           status: string | null
@@ -62,6 +69,7 @@ export interface Database {
         Insert: {
           id?: string
           study_id: string
+          timeslot_id?: string | null
           name: string
           email: string
           status?: string | null
@@ -72,6 +80,7 @@ export interface Database {
         Update: {
           id?: string
           study_id?: string
+          timeslot_id?: string | null
           name?: string
           email?: string
           status?: string | null
@@ -88,6 +97,83 @@ export interface Database {
             referencedColumns: ["id"]
           }
         ]
+      }
+      timeslots: {
+        Row: {
+          id: string
+          study_id: string
+          starts_at: string
+          capacity: number
+          location: string | null
+          notes: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          study_id: string
+          starts_at: string
+          capacity?: number
+          location?: string | null
+          notes?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          study_id?: string
+          starts_at?: string
+          capacity?: number
+          location?: string | null
+          notes?: string | null
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "timeslots_study_id_fkey"
+            columns: ["study_id"]
+            isOneToOne: false
+            referencedRelation: "studies"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      student_profiles: {
+        Row: {
+          email: string
+          display_name: string | null
+          university: string | null
+          programme: string | null
+          study_year: string | null
+          bio: string | null
+          research_interests: string | null
+          availability_note: string | null
+          updated_at: string
+          created_at: string
+        }
+        Insert: {
+          email: string
+          display_name?: string | null
+          university?: string | null
+          programme?: string | null
+          study_year?: string | null
+          bio?: string | null
+          research_interests?: string | null
+          availability_note?: string | null
+          updated_at?: string
+          created_at?: string
+        }
+        Update: {
+          email?: string
+          display_name?: string | null
+          university?: string | null
+          programme?: string | null
+          study_year?: string | null
+          bio?: string | null
+          research_interests?: string | null
+          availability_note?: string | null
+          updated_at?: string
+          created_at?: string
+        }
+        Relationships: []
       }
     }
     Views: {

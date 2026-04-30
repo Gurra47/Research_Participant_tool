@@ -1,6 +1,6 @@
 import React from 'react';
 import { supabase } from '@/lib/supabase';
-import StudyCard from '@/components/StudyCard';
+import StudyFeed from '@/components/StudyFeed';
 import Link from 'next/link';
 
 // Explicitly mark as dynamic since we are fetching from a database
@@ -14,14 +14,18 @@ export default async function DashboardPage() {
 
   const activeStudies = studies?.filter((study) => (study.status || 'Active') === 'Active').length || 0;
   const totalCapacity = studies?.reduce((total, study) => total + (study.capacity || 0), 0) || 0;
-  const totalCredits = studies?.reduce((total, study) => total + (study.credits || 0), 0) || 0;
+  const researchersCount = new Set(
+    studies
+      ?.map((study) => study.researcher_email)
+      .filter(Boolean)
+  ).size;
 
   return (
     <div className="container">
       <main className="main-content">
         <header className="header animate-fade-in">
           <h1>Dashboard</h1>
-          <p>Track active studies, booking capacity, and participant credits.</p>
+          <p>Find studies and see who is already helping whom.</p>
         </header>
 
         <section className="animate-fade-in" style={{ animationDelay: '0.1s' }}>
@@ -36,8 +40,8 @@ export default async function DashboardPage() {
                 <strong>{totalCapacity}</strong>
               </div>
               <div className="metric">
-                <span>Credits Per Round</span>
-                <strong>{totalCredits}</strong>
+                <span>Researchers</span>
+                <strong>{researchersCount}</strong>
               </div>
             </div>
             <Link href="/create-study" className="btn btn-primary">
@@ -50,11 +54,7 @@ export default async function DashboardPage() {
               <p style={{ color: 'red' }}>Error loading studies: {error.message}</p>
             </div>
           ) : studies && studies.length > 0 ? (
-            <div className="studies-grid">
-              {studies.map((study) => (
-                <StudyCard key={study.id} study={study} />
-              ))}
-            </div>
+            <StudyFeed studies={studies} />
           ) : (
             <div className="form-container text-center">
               <h2>No active studies found.</h2>

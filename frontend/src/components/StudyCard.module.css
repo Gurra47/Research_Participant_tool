@@ -33,8 +33,26 @@
   font-size: 1.25rem;
   font-weight: 700;
   margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
   color: var(--foreground);
+}
+
+.owner {
+  color: var(--secondary);
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.helpBadge {
+  background: rgba(15, 118, 110, 0.12);
+  border: 1px solid rgba(15, 118, 110, 0.25);
+  border-radius: var(--radius-md);
+  color: var(--secondary);
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem 0.75rem;
 }
 
 .description {
@@ -74,4 +92,11 @@
   border-radius: 999px;
   background: var(--surface-hover);
   color: var(--text-muted);
+}
+
+.slotLink {
+  color: var(--primary);
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-top: 1rem;
 }

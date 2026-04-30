@@ -13,6 +13,9 @@ export default function Navbar() {
           <Link href="/dashboard" className={styles.navLink}>
             Dashboard
           </Link>
+          <Link href="/dashboard#feedViewerEmail" className={styles.navLink}>
+            My Page
+          </Link>
           <Link href="/create-study" className={styles.navLink}>
             Create Study
           </Link>

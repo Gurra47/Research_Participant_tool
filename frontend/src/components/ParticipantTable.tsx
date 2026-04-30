@@ -90,7 +90,7 @@ export default function ParticipantTable({ participants, studyCredits }: Partici
             <th>Participant</th>
             <th>Booking</th>
             <th>Status</th>
-            <th>Credits</th>
+            <th>Points</th>
             <th>Actions</th>
           </tr>
         </thead>
